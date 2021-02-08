@@ -2,7 +2,6 @@ import { Stack, Image, Text } from "@chakra-ui/react";
 import { CONDITION, formatPrice } from "../utils";
 
 export default function ProductItem({ product }) {
-  console.log(product);
   const {
     thumbnail,
     title,

@@ -12,8 +12,13 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { CONDITION, formatPrice } from "../../utils";
+import NoResults from "../../components/noResults";
 
 export default function ProductDetail({ product }) {
+  if (!product.id) {
+    return <NoResults />;
+  }
+
   const {
     id,
     thumbnail,
@@ -29,13 +34,12 @@ export default function ProductDetail({ product }) {
 
   const [selectedImage, setSelectedImage] = useState(pictures[0].url);
 
-  const url = `localhost:3000/product/${id}`;
+  const url = `https://mercadolibre-challenge.vercel.app/product/${id}`;
   const description = `Compralo en Mercado Libre a ${formatPrice(
     price,
     currency_id
   )} - Pagá en cuotas - Envío gratis a todo el país. Encontrá más productos en nuestra web.`;
 
-  console.log(product);
   return (
     <>
       <Head>
@@ -185,6 +189,7 @@ export default function ProductDetail({ product }) {
 ProductDetail.getInitialProps = async ({ query }) => {
   const product = await fetch(`https://api.mercadolibre.com/items/${query.id}`);
   const response = await product.json();
+
   return {
     product: response,
   };
